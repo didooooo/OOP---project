@@ -9,8 +9,10 @@ public abstract class Books {
     private Set<String> tags = new HashSet<>();
     private double rating;
     private String isbn;
+    private int year;
 
-    public Books(Author author, String title, String genre, String description, Set<String> tags, double rating, String isbn) {
+
+    public Books(Author author, String title, String genre, String description, Set<String> tags, double rating, String isbn, int year) {
         this.author = author;
         this.title = title;
         this.genre = genre;
@@ -18,6 +20,7 @@ public abstract class Books {
         this.tags = tags;
         this.rating = rating;
         this.isbn = isbn;
+        this.year = year;
     }
 
     public Author getAuthor() {
@@ -58,5 +61,13 @@ public abstract class Books {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

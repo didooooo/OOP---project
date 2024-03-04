@@ -1,4 +1,4 @@
 public interface LogOperation {
-    void login(String username, String password);
-    void logout();
+    void login(User user,String username, String password);
+    void logout(User user);
 }

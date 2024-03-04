@@ -45,4 +45,9 @@ public class Author implements Comparable<Author>{
         }
         return  result;
     }
+
+    @Override
+    public String toString() {
+        return "firstName= " + firstName +" lastName= " + lastName;
+    }
 }
