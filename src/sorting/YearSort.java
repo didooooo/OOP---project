@@ -1,6 +1,11 @@
+package sorting;
+
+import books.Books;
+import sorting.GnomeSort;
+
 import java.util.List;
 
-public class YearSort implements GnomeSort{
+public class YearSort implements GnomeSort {
     @Override
     public void gnomeSort(List<Books> books) {
         int index= 0;
@@ -11,10 +16,10 @@ public class YearSort implements GnomeSort{
             if(books.get(index).getYear()>=books.get(index-1).getYear()){
                 index++;
             }else {
-                int temp=0;
-                temp = books.get(index).getYear();
-                books.get(index).setYear(books.get(index-1).getYear());
-                books.get(index-1).setYear(temp);
+                Books temp;
+                temp = books.get(index);
+                books.set(index,books.get(index-1));
+                books.set(index-1,temp);
                 index--;
             }
         }

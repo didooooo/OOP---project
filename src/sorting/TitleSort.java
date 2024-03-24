@@ -1,6 +1,11 @@
+package sorting;
+
+import books.Books;
+import sorting.GnomeSort;
+
 import java.util.List;
 
-public class TitleSort implements GnomeSort{
+public class TitleSort implements GnomeSort {
     @Override
     public void gnomeSort(List<Books> books) {
         int index= 0;
@@ -11,10 +16,10 @@ public class TitleSort implements GnomeSort{
             if(books.get(index).getTitle().compareTo(books.get(index-1).getTitle())>0){
                 index++;
             }else {
-                String temp;
-                temp = books.get(index).getTitle();
-                books.get(index).setTitle(books.get(index-1).getTitle());
-                books.get(index-1).setTitle(temp);
+                Books temp;
+                temp = books.get(index);
+                books.set(index,books.get(index-1));
+                books.set(index-1,temp);
                 index--;
             }
         }

@@ -1,3 +1,5 @@
+package author;
+
 public class Author implements Comparable<Author>{
     private String firstName;
     private String secondName;

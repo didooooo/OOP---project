@@ -1,3 +1,7 @@
+package books;
+
+import author.Author;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -69,5 +73,9 @@ public abstract class Books {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 }

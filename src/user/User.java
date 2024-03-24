@@ -1,7 +1,10 @@
+package user;
+
 public class User{
     private String username=null;
     private String password=null;
     private boolean isAdmin=false;
+
     public String getUsername() {
         return username;
     }
