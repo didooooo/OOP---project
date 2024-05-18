@@ -1,13 +1,13 @@
 package author;
 
-public class Author implements Comparable<Author>{
+import java.util.Objects;
+
+public class Author implements Comparable<Author> {
     private String firstName;
-    private String secondName;
     private String lastName;
 
-    public Author(String firstName, String secondName, String lastName) {
+    public Author(String firstName, String lastName) {
         this.firstName = firstName;
-        this.secondName = secondName;
         this.lastName = lastName;
     }
 
@@ -17,14 +17,6 @@ public class Author implements Comparable<Author>{
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getSecondName() {
-        return secondName;
-    }
-
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
     }
 
     public String getLastName() {
@@ -38,18 +30,27 @@ public class Author implements Comparable<Author>{
     @Override
     public int compareTo(Author o) {
         int result = this.getFirstName().compareTo(o.getFirstName());
-        if(result==0){
-            result = this.getSecondName().compareTo(o.getSecondName());
-            if(result==0){
-                return this.getLastName().compareTo(o.getLastName());
-            }
-            return result;
+        if (result == 0) {
+            return this.getLastName().compareTo(o.getLastName());
         }
-        return  result;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName);
     }
 
     @Override
     public String toString() {
-        return "firstName= " + firstName +" lastName= " + lastName;
+        return "firstName= " + firstName + " lastName= " + lastName;
     }
 }

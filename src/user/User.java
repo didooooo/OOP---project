@@ -1,5 +1,7 @@
 package user;
 
+import logger.Logger;
+
 public class User{
     private String username=null;
     private String password=null;

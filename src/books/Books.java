@@ -16,12 +16,12 @@ public abstract class Books {
     private int year;
 
 
-    public Books(Author author, String title, String genre, String description, Set<String> tags, double rating, String isbn, int year) {
+    public Books(Author author, String title, String genre, String description, double rating, String isbn, int year) {
         this.author = author;
         this.title = title;
         this.genre = genre;
         this.description = description;
-        this.tags = tags;
+        this.tags = new HashSet<>();
         this.rating = rating;
         this.isbn = isbn;
         this.year = year;
@@ -53,6 +53,9 @@ public abstract class Books {
 
     public String getIsbn() {
         return isbn;
+    }
+    public  void addTag(String tag) {
+        tags.add(tag);
     }
 
     public void setTitle(String title) {

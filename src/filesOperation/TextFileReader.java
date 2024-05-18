@@ -1,5 +1,6 @@
 package filesOperation;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Set;
 public class TextFileReader implements Reader {
     @Override
     public Map<String,String> read(String path) {
+        
         HashMap<String, String> users = new HashMap<>();
         try(FileReader fileReader = new FileReader(path)){
             Scanner scanner = new Scanner(fileReader);
