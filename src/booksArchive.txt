@@ -1,0 +1,18 @@
+1605==4.1==Miguel==Cervantes==Don Quixote==Fiction==The adventures of a nobleman who believes he is a knight.==978-0060934347
+adventure==chivalry==satire==
+1813==4.8==Jane==Austen==Pride and Prejudice==Romance==Elizabeth Bennet deals with issues of manners, upbringing, and marriage.==978-1503290563
+love==society==marriage==
+1818==4.0==Mary==Shelley==Frankenstein==Horror==A scientist creates a sentient being.==978-0486282114
+tragedy==science==creation==
+1847==4.5==Emily==Bronte==Wuthering Heights==Gothic==The tumultuous relationship between Heathcliff and Catherine.==978-0141439556
+love==revenge==tragedy==
+1847==4.7==Charlotte==Bronte==Jane Eyre==Romance==The life of an orphaned girl who becomes a governess.==978-0141441146
+love==society==independence==
+1849==4.6==Edgar==Allan Poe==The Fall of the House of Usher==Gothic==A man visits a friend who is suffering from a mysterious illness.==978-0486282145
+horror==gothic==madness==
+1859==4.4==Charles==Dickens==A Tale of Two Cities==Historical==A story of the French Revolution.==978-1503219700
+sacrifice==revolution==resurrection==
+1862==4.8==Victor==Hugo==Les Misérables==Historical==Jean Valjean's struggle for redemption.==978-0451419439
+love==redemption==revolution==
+1866==4.5==Fyodor==Dostoevsky==Crime and Punishment==Psychological==A man commits a murder and deals with the consequences.==978-0486454115
+guilt==redemption==morality==
