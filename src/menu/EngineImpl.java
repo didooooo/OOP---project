@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * The EngineImpl class implements the Engine interface, providing a mechanism
+ * to run the application and process user commands.
+ */
 public class EngineImpl implements Engine {
     private final Scanner scanner;
     private final Controller controller;
@@ -24,11 +28,16 @@ public class EngineImpl implements Engine {
         menuCommands = new HashMap<>();
     }
 
+    /**
+     * Runs the application, processing user commands until the "exit" command is entered.
+     * This method also handles command invocation based on user input.
+     */
     @Override
     public void run() {
         try {
             User user = new User();
             fillMapWithCommands();
+            controller.help();
             while (true) {
                 System.out.println("Next command: ");
                 String line = scanner.nextLine();
@@ -39,22 +48,11 @@ public class EngineImpl implements Engine {
                 if (tokens.length >= 3) {
                     if (menuCommands.containsKey(tokens[0] + " " + tokens[1] + " " + tokens[2])) {
                         menuCommands.get(tokens[0] + " " + tokens[1] + " " + tokens[2]).invoke(command, tokens, new User[]{library.getUser(), user});
-                    } else if (menuCommands.containsKey(tokens[0] + " " + tokens[1])) {
-                        menuCommands.get(tokens[0] + " " + tokens[1]).invoke(command, tokens, new User[]{library.getUser(), user});
-                    } else if (menuCommands.containsKey(tokens[0])) {
-                        menuCommands.get(tokens[0]).invoke(command, tokens, new User[]{library.getUser(), user});
                     } else {
-                        System.out.println("Wrong command");
+                        checkValue(user, tokens);
                     }
-                } else if (tokens.length >= 2) {
-                    if (menuCommands.containsKey(tokens[0] + " " + tokens[1])) {
-                        menuCommands.get(tokens[0] + " " + tokens[1]).invoke(command, tokens, new User[]{library.getUser(), user});
-                    } else if (menuCommands.containsKey(tokens[0])) {
-                        menuCommands.get(tokens[0]).invoke(command, tokens, new User[]{library.getUser(), user});
-                    } else {
-                        System.out.println("Wrong command");
-
-                    }
+                } else if (tokens.length == 2) {
+                    checkValue(user, tokens);
                 } else {
                     if (menuCommands.containsKey(tokens[0])) {
                         menuCommands.get(tokens[0]).invoke(command, tokens, new User[]{library.getUser(), user});
@@ -68,6 +66,29 @@ public class EngineImpl implements Engine {
         }
     }
 
+    /**
+     * Checks the user input against the stored commands and invokes the corresponding method.
+     *
+     * @param user   the User instance representing the current user.
+     * @param tokens an array of strings representing the user input tokens.
+     * @throws IllegalAccessException    if access to the method is denied.
+     * @throws InvocationTargetException if the method cannot be invoked.
+     */
+    private void checkValue(User user, String[] tokens) throws IllegalAccessException, InvocationTargetException {
+        if (menuCommands.containsKey(tokens[0] + " " + tokens[1])) {
+            menuCommands.get(tokens[0] + " " + tokens[1]).invoke(command, tokens, new User[]{library.getUser(), user});
+        } else if (menuCommands.containsKey(tokens[0])) {
+            menuCommands.get(tokens[0]).invoke(command, tokens, new User[]{library.getUser(), user});
+        } else {
+            System.out.println("Wrong command");
+        }
+    }
+
+    /**
+     * Fills the map with commands mapped to their corresponding methods.
+     *
+     * @throws NoSuchMethodException if a specified method cannot be found.
+     */
     private void fillMapWithCommands() throws NoSuchMethodException {
         Method method = CommandImpl.class.getMethod("booksAll", String[].class, User[].class);
         Method method1 = CommandImpl.class.getMethod("login", String[].class, User[].class);
@@ -86,6 +107,7 @@ public class EngineImpl implements Engine {
         Method method14 = CommandImpl.class.getMethod("saveAs", String[].class, User[].class);
         Method method15 = CommandImpl.class.getMethod("booksInfo", String[].class, User[].class);
         Method method16 = CommandImpl.class.getMethod("removeBook", String[].class, User[].class);
+        Method method17 = CommandImpl.class.getMethod("help", String[].class, User[].class);
         menuCommands.put("books all", method);
         menuCommands.put("login", method1);
         menuCommands.put("logout", method2);
@@ -103,5 +125,6 @@ public class EngineImpl implements Engine {
         menuCommands.put("books remove", method16);
         menuCommands.put("save", method13);
         menuCommands.put("saveas", method14);
+        menuCommands.put("help", method17);
     }
 }

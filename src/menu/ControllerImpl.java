@@ -6,12 +6,17 @@ import filesOperation.CloseFIle;
 import filesOperation.OpenFile;
 import filesOperation.SaveAsFile;
 import filesOperation.SaveFile;
+import help.HelpCommand;
 import library.Library;
 import logger.LogOperation;
 import register.RegisterOperation;
 import sorting.Sorter;
 import user.User;
 
+/**
+ * The ControllerImpl class implements the Controller interface, providing methods
+ * to manage operations related to books, users, logging, registration, and file operations.
+ */
 public class ControllerImpl implements Controller {
     private Library library;
     private LogOperation logOperation;
@@ -20,6 +25,7 @@ public class ControllerImpl implements Controller {
     private CloseFIle closeFile;
     private SaveAsFile saveAsFile;
     private SaveFile saveFile;
+    private HelpCommand helpCommand;
 
     public ControllerImpl(Library library, LogOperation logOperation, RegisterOperation registerOperation) {
         this.library = library;
@@ -29,6 +35,7 @@ public class ControllerImpl implements Controller {
         this.closeFile = new CloseFIle(library);
         this.saveAsFile = new SaveAsFile(library);
         this.saveFile = new SaveFile(library);
+        this.helpCommand = new HelpCommand();
     }
 
     @Override
@@ -93,12 +100,12 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void add(User user) {
-        this.add(user);
+        this.registerOperation.add(user);
     }
 
     @Override
     public void remove(User user) {
-        this.remove(user);
+        this.registerOperation.remove(user);
     }
 
     @Override
@@ -122,13 +129,18 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public boolean isLoggedIn() {
-        if (library.getUser().getUsername() == null) return false;
+    public boolean isLoggedIn(User user) {
+        if (user.getUsername() == null) return false;
         return true;
     }
 
     @Override
-    public boolean isAdmin() {
-        return library.getUser().isAdmin();
+    public boolean isAdmin(User user) {
+        return user.isAdmin();
+    }
+
+    @Override
+    public void help() {
+        helpCommand.help();
     }
 }

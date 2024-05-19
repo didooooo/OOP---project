@@ -1,7 +1,9 @@
 package user;
 
 import logger.Logger;
-
+/**
+ * The User class represents a user in the system.
+ */
 public class User{
     private String username=null;
     private String password=null;

@@ -42,7 +42,8 @@ public interface Controller {
 
     void close();
 
-    boolean isLoggedIn();
+    boolean isLoggedIn(User user);
 
-    boolean isAdmin();
+    boolean isAdmin(User user);
+    void help();
 }

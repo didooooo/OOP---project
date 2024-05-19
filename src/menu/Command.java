@@ -36,4 +36,5 @@ public interface Command {
     void open(String[] data, User... user);
 
     void close(String[] data, User... user);
+    void help(String[] data, User... user);
 }

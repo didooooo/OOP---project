@@ -7,8 +7,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-
+/**
+ * The TextFileReader class implements the Reader interface and is responsible for reading
+ * key-value pairs from a text file where each line
+ * contains a key and a value separated by whitespace.
+ */
 public class TextFileReader implements Reader {
+    /**
+     * Reads a text file from the specified path and returns a map of key-value pairs.
+     * Each line in the file should contain a key and a value separated by whitespace.
+     *
+     * @param path the path of the text file to read.
+     * @return a map containing the key-value pairs read from the file.
+     */
     @Override
     public Map<String,String> read(String path) {
         

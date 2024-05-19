@@ -15,6 +15,12 @@ public class SaveAsFile {
         this.library = library;
     }
 
+    /**
+     * Saves the library's data to the specified file path.
+     * If the file does not exist, it creates a new file.
+     *
+     * @param path the path of the file to save the library's data to.
+     */
     public void save(String path) {
         File file = new File(path);
         if (!file.exists()) {
@@ -26,6 +32,6 @@ public class SaveAsFile {
         }
         library.setPath(path);
         SaveFile.writeBooks(library);
-        System.out.println("Successfully saved another "+path);
+        System.out.println("Successfully saved another " + path);
     }
 }

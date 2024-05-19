@@ -20,10 +20,6 @@ public class Main {
         Controller controller = new ControllerImpl(library,new Logger(new TextFileReader()),new Register(new TextFileWriter(),new TextFileReader(),new User(), library.getUser()));
         CommandImpl command = new CommandImpl(controller);
         Engine engine = new EngineImpl(new Scanner(System.in),controller,command,library);
-      //  Object booksAll = menu.CommandImpl.class.getMethod("booksAll").invoke(command);
-        //Object login = menu.CommandImpl.class.getMethod("login", String[].class, User.class).invoke(command,new String[]{"admin","i<3c++","Users.txt"},new User());
-        // method.invoke(command);
-        //System.out.println(test);
         engine.run();
     }
 }
