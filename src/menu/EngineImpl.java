@@ -1,6 +1,13 @@
 package menu;
 
+import books.Books;
+import filesOperation.*;
+import help.HelpCommand;
 import library.Library;
+import logger.LogOperation;
+import logger.Logger;
+import register.Register;
+import register.RegisterOperation;
 import user.User;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,17 +22,17 @@ import java.util.Scanner;
  */
 public class EngineImpl implements Engine {
     private final Scanner scanner;
-    private final Controller controller;
-    private final Map<String, Method> menuCommands;
-    private final Command command;
+    private final Map<String, MenuCommand> menuCommands;
     private final Library library;
+    private final LogOperation logOperation;
+    private final RegisterOperation registerOperation;
 
-    public EngineImpl(Scanner scanner, Controller controller, Command command, Library library) {
+    public EngineImpl(Scanner scanner, Library library, LogOperation logOperation, RegisterOperation registerOperation) {
         this.scanner = scanner;
-        this.controller = controller;
-        this.command = command;
         this.library = library;
-        menuCommands = new HashMap<>();
+        this.logOperation = logOperation;
+        this.registerOperation = registerOperation;
+        this.menuCommands = new HashMap<>();
     }
 
     /**
@@ -37,7 +44,7 @@ public class EngineImpl implements Engine {
         try {
             User user = new User();
             fillMapWithCommands();
-            controller.help();
+            menuCommands.get("help").execute(null, user);
             while (true) {
                 System.out.println("Next command: ");
                 String line = scanner.nextLine();
@@ -47,7 +54,7 @@ public class EngineImpl implements Engine {
                 }
                 if (tokens.length >= 3) {
                     if (menuCommands.containsKey(tokens[0] + " " + tokens[1] + " " + tokens[2])) {
-                        menuCommands.get(tokens[0] + " " + tokens[1] + " " + tokens[2]).invoke(command, tokens, new User[]{library.getUser(), user});
+                        menuCommands.get(tokens[0] + " " + tokens[1] + " " + tokens[2]).execute(tokens, new User[]{user, library.getUser()});
                     } else {
                         checkValue(user, tokens);
                     }
@@ -55,7 +62,7 @@ public class EngineImpl implements Engine {
                     checkValue(user, tokens);
                 } else {
                     if (menuCommands.containsKey(tokens[0])) {
-                        menuCommands.get(tokens[0]).invoke(command, tokens, new User[]{library.getUser(), user});
+                        menuCommands.get(tokens[0]).execute(tokens, new User[]{user, library.getUser()});
                     } else {
                         System.out.println("Wrong command");
                     }
@@ -76,9 +83,9 @@ public class EngineImpl implements Engine {
      */
     private void checkValue(User user, String[] tokens) throws IllegalAccessException, InvocationTargetException {
         if (menuCommands.containsKey(tokens[0] + " " + tokens[1])) {
-            menuCommands.get(tokens[0] + " " + tokens[1]).invoke(command, tokens, new User[]{library.getUser(), user});
+            menuCommands.get(tokens[0] + " " + tokens[1]).execute(tokens, new User[]{user, library.getUser()});
         } else if (menuCommands.containsKey(tokens[0])) {
-            menuCommands.get(tokens[0]).invoke(command, tokens, new User[]{library.getUser(), user});
+            menuCommands.get(tokens[0]).execute(tokens, new User[]{user, library.getUser()});
         } else {
             System.out.println("Wrong command");
         }
@@ -90,41 +97,41 @@ public class EngineImpl implements Engine {
      * @throws NoSuchMethodException if a specified method cannot be found.
      */
     private void fillMapWithCommands() throws NoSuchMethodException {
-        Method method = CommandImpl.class.getMethod("booksAll", String[].class, User[].class);
-        Method method1 = CommandImpl.class.getMethod("login", String[].class, User[].class);
-        Method method2 = CommandImpl.class.getMethod("logout", String[].class, User[].class);
-        Method method3 = CommandImpl.class.getMethod("booksSortDesc", String[].class, User[].class);
-        Method method4 = CommandImpl.class.getMethod("booksSort", String[].class, User[].class);
-        Method method5 = CommandImpl.class.getMethod("booksFindTag", String[].class, User[].class);
-        Method method6 = CommandImpl.class.getMethod("addBook", String[].class, User[].class);
-        Method method7 = CommandImpl.class.getMethod("booksFindAuthor", String[].class, User[].class);
-        Method method8 = CommandImpl.class.getMethod("booksFindTitle", String[].class, User[].class);
-        Method method9 = CommandImpl.class.getMethod("add", String[].class, User[].class);
-        Method method10 = CommandImpl.class.getMethod("remove", String[].class, User[].class);
-        Method method11 = CommandImpl.class.getMethod("close", String[].class, User[].class);
-        Method method12 = CommandImpl.class.getMethod("open", String[].class, User[].class);
-        Method method13 = CommandImpl.class.getMethod("save", String[].class, User[].class);
-        Method method14 = CommandImpl.class.getMethod("saveAs", String[].class, User[].class);
-        Method method15 = CommandImpl.class.getMethod("booksInfo", String[].class, User[].class);
-        Method method16 = CommandImpl.class.getMethod("removeBook", String[].class, User[].class);
-        Method method17 = CommandImpl.class.getMethod("help", String[].class, User[].class);
-        menuCommands.put("books all", method);
-        menuCommands.put("login", method1);
-        menuCommands.put("logout", method2);
-        menuCommands.put("books sort desc", method3);
-        menuCommands.put("books sort", method4);
-        menuCommands.put("books find tag", method5);
-        menuCommands.put("books find author", method7);
-        menuCommands.put("books find title", method8);
-        menuCommands.put("books add", method6);
-        menuCommands.put("users add", method9);
-        menuCommands.put("users remove", method10);
-        menuCommands.put("close", method11);
-        menuCommands.put("open", method12);
-        menuCommands.put("books info", method15);
-        menuCommands.put("books remove", method16);
-        menuCommands.put("save", method13);
-        menuCommands.put("saveas", method14);
-        menuCommands.put("help", method17);
+        MenuCommand booksAll = new BooksAll(library);
+        MenuCommand booksInfo = new BooksInfo(library);
+        MenuCommand login = new Login(logOperation);
+        MenuCommand logout = new Logout(logOperation);
+        MenuCommand removeBook = new RemoveBook(library);
+        MenuCommand addBook = new AddBook(library);
+        MenuCommand removeUser = new RemoveUser(registerOperation);
+        MenuCommand addUser = new AddUser(registerOperation);
+        MenuCommand booksFindTag = new BooksFindTag(library);
+        MenuCommand booksFindAuthor = new BooksFindAuthor(library);
+        MenuCommand booksFindTitle = new BooksFindTitle(library);
+        MenuCommand booksSort = new BooksSort(library);
+        MenuCommand booksSortDesc = new BooksSortDesc(library);
+        MenuCommand close = new Close(new CloseFIle(library));
+        MenuCommand help = new Help(new HelpCommand());
+        MenuCommand open = new Open(new OpenFile(library));
+        MenuCommand save = new Save(new SaveFile(library));
+        MenuCommand saveas = new SaveAs(new SaveAsFile(library));
+        menuCommands.put("books all", booksAll);
+        menuCommands.put("login", login);
+        menuCommands.put("logout", logout);
+        menuCommands.put("books sort desc", booksSortDesc);
+        menuCommands.put("books sort", booksSort);
+        menuCommands.put("books find tag", booksFindTag);
+        menuCommands.put("books find author", booksFindAuthor);
+        menuCommands.put("books find title", booksFindTitle);
+        menuCommands.put("books add", addBook);
+        menuCommands.put("users add", addUser);
+        menuCommands.put("users remove", removeUser);
+        menuCommands.put("close", close);
+        menuCommands.put("open", open);
+        menuCommands.put("books info", booksInfo);
+        menuCommands.put("books remove", removeBook);
+        menuCommands.put("save", save);
+        menuCommands.put("saveas", saveas);
+        menuCommands.put("help", help);
     }
 }

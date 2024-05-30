@@ -1,9 +1,11 @@
 import filesOperation.TextFileReader;
 import filesOperation.TextFileWriter;
 import library.Library;
+import logger.LogOperation;
 import logger.Logger;
 import menu.*;
 import register.Register;
+import register.RegisterOperation;
 import sorting.GnomeSort;
 import sorting.Sorter;
 import sorting.SortingAlgorithm;
@@ -17,9 +19,9 @@ public class Main {
         SortingAlgorithm sorter = new GnomeSort();
         Sorter sorter1 = new Sorter(sorter);
         Library library= new Library(sorter1,new User());
-        Controller controller = new ControllerImpl(library,new Logger(new TextFileReader()),new Register(new TextFileWriter(),new TextFileReader(),new User(), library.getUser()));
-        CommandImpl command = new CommandImpl(controller);
-        Engine engine = new EngineImpl(new Scanner(System.in),controller,command,library);
+        LogOperation logOperation = new Logger(new TextFileReader());
+        RegisterOperation registerOperation = new Register(new TextFileWriter(),new TextFileReader());
+        Engine engine = new EngineImpl(new Scanner(System.in),library,logOperation,registerOperation);
         engine.run();
     }
 }

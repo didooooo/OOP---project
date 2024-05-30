@@ -16,14 +16,11 @@ public class Register implements RegisterOperation {
     private final Writer writer;
     private final Reader reader;
     private final String FILE_PATH = "Users.txt";
-    private User user;
-    private User loggedInUser;
 
-    public Register(Writer writer, Reader reader, User user, User loggedInUser) {
+
+    public Register(Writer writer, Reader reader) {
         this.writer = writer;
         this.reader = reader;
-        this.user = user;
-        this.loggedInUser = loggedInUser;
     }
 
     /**
